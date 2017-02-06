@@ -2,7 +2,7 @@
 
 MyWatchList is a simple android app which interacts with [themoviedb](https://www.themoviedb.org) API
 
-- The app demonstrates following components/libraries
+The app demonstrates following components/libraries
 - Volley to make API calls
 - Custom search suggestions
 - SwipeRefreshLayout
