@@ -3,12 +3,27 @@ package com.scanba.mywatchlist.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.table.DatabaseTable;
+
+import java.sql.SQLException;
+
+@DatabaseTable(tableName = "movies")
 public class Movie implements Parcelable {
 
-    private String id;
+    @DatabaseField(generatedId = true)
+    private int id;
+    @DatabaseField
+    private String theMovieDbId;
+    @DatabaseField
     private String title;
+    @DatabaseField
     private String releaseDate;
+    @DatabaseField
     private String posterPath;
+    @DatabaseField
     private int rating;
     private String description;
     private String genres;
@@ -18,7 +33,7 @@ public class Movie implements Parcelable {
     }
 
     protected Movie(Parcel in) {
-        id = in.readString();
+        theMovieDbId = in.readString();
         title = in.readString();
         releaseDate = in.readString();
         posterPath = in.readString();
@@ -39,12 +54,12 @@ public class Movie implements Parcelable {
         }
     };
 
-    public String getId() {
-        return id;
+    public String getTheMovieDbId() {
+        return theMovieDbId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setTheMovieDbId(String theMovieDbId) {
+        this.theMovieDbId = theMovieDbId;
     }
 
     public String getTitle() {
@@ -102,12 +117,28 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
+        dest.writeString(theMovieDbId);
         dest.writeString(title);
         dest.writeString(releaseDate);
         dest.writeString(posterPath);
         dest.writeInt(rating);
         dest.writeString(description);
         dest.writeString(genres);
+    }
+
+    //Checks if record exists in database
+    public static boolean exists(String theMovieDbId, Dao<Movie, Integer> movieDao) {
+        QueryBuilder<Movie, Integer> queryBuilder = movieDao.queryBuilder();
+        try {
+            long count = queryBuilder.where().eq("theMovieDBId", theMovieDbId).countOf();
+            if (count > 0)
+                return true;
+            else
+                return false;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return true;
+        }
     }
 }

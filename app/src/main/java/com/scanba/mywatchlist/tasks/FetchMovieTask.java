@@ -98,7 +98,7 @@ public class FetchMovieTask extends AsyncTask<String, Void, Movie> {
 
             if (id != null && title != null) {
                 movie = new Movie();
-                movie.setId(id);
+                movie.setTheMovieDbId(id);
                 movie.setTitle(title);
                 movie.setReleaseDate(releaseDate);
                 movie.setPosterPath(posterPath);

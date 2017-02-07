@@ -4,17 +4,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
 import com.scanba.mywatchlist.Constants;
+import com.scanba.mywatchlist.DatabaseHelper;
 import com.scanba.mywatchlist.R;
 import com.scanba.mywatchlist.callbacks.MovieLoadedListener;
 import com.scanba.mywatchlist.models.Movie;
 import com.scanba.mywatchlist.tasks.FetchMovieTask;
 import com.squareup.picasso.Picasso;
+
+import java.sql.SQLException;
 
 public class MovieDetailsActivity extends AppCompatActivity implements MovieLoadedListener {
 
@@ -22,6 +30,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieLoad
     ImageView moviePoster;
     RatingBar movieRating;
     ProgressBar movieLoader;
+    Button addToWatchListButton;
+    Movie movie;
+    DatabaseHelper databaseHelper;
+    Dao<Movie, Integer> movieDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,16 +49,24 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieLoad
         moviePoster = (ImageView) findViewById(R.id.movie_poster);
         movieRating = (RatingBar) findViewById(R.id.movie_rating);
         movieLoader = (ProgressBar) findViewById(R.id.movie_loader);
+        addToWatchListButton = (Button) findViewById(R.id.add_to_watchlist_button);
 
-        movieLoader.setVisibility(ProgressBar.VISIBLE);
+        databaseHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
+        try {
+            movieDao = databaseHelper.getMovieDao();
+            String theMovieDbId = getIntent().getStringExtra("MOVIE_ID");
+            FetchMovieTask fetchMovieTask = new FetchMovieTask(this, this);
+            fetchMovieTask.execute(theMovieDbId);
 
-        FetchMovieTask fetchMovieTask = new FetchMovieTask(this, this);
-        fetchMovieTask.execute(getIntent().getStringExtra("MOVIE_ID"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
     @Override
     public void onMovieLoaded(Movie movie) {
+        this.movie = movie;
         movieLoader.setVisibility(ProgressBar.INVISIBLE);
         String posterPath = movie.getPosterPath();
         if(posterPath != null) {
@@ -57,12 +77,26 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieLoad
         movieGenres.setText(movie.getGenres());
         movieDescription.setText(movie.getDescription());
         movieRating.setRating(movie.getRating());
-
+        if(movieDao != null && !Movie.exists(movie.getTheMovieDbId(), movieDao)) {
+            addToWatchListButton.setVisibility(Button.VISIBLE);
+        }
     }
 
     @Override
     public void onBackPressed() {
         Intent setIntent = new Intent(this, MainActivity.class);
         startActivity(setIntent);
+    }
+
+    public void addToWatchList(View view) {
+        addToWatchListButton.setVisibility(View.INVISIBLE);
+        try {
+            movieDao.create(movie);
+            Toast.makeText(this, "Successfully added movie to watch list.", Toast.LENGTH_SHORT).show();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Failed to add to watch list. Please try again.", Toast.LENGTH_SHORT).show();
+            addToWatchListButton.setVisibility(Button.VISIBLE);
+        }
     }
 }
