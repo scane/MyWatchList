@@ -10,84 +10,92 @@
         android:id="@+id/tool_bar"
         layout="@layout/tool_bar" />
 
-
-    <ImageView
-        android:id="@+id/movie_poster"
-        android:layout_width="108dp"
-        android:layout_height="160dp"
-        android:layout_below="@+id/tool_bar"
-        android:layout_margin="16dp" />
-
-    <TextView
-        android:id="@+id/movie_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tool_bar"
-        android:layout_marginTop="16dp"
-        android:layout_toRightOf="@id/movie_poster"
-        android:text="Title"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/movie_release_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/movie_title"
-        android:layout_marginTop="16dp"
-        android:layout_toRightOf="@id/movie_poster"
-        android:text="Release date"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/movie_genres"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/movie_release_date"
-        android:layout_marginTop="16dp"
-        android:layout_toRightOf="@id/movie_poster"
-        android:text="Genres"
-        android:textSize="16sp" />
-
-    <RatingBar
-        android:id="@+id/movie_rating"
-        style="@android:style/Widget.Holo.RatingBar.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/movie_genres"
-        android:layout_marginTop="16dp"
-        android:layout_toEndOf="@+id/movie_poster"
-        android:layout_toRightOf="@+id/movie_poster" />
-
-    <Button
-        android:visibility="invisible"
-        android:id="@+id/add_to_watchlist_button"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/movie_poster"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@color/colorAccent"
-        android:onClick="addToWatchList"
-        android:text="+ Add to Watch list"
-        android:textColor="#FFFFFF" />
+        android:layout_below="@id/tool_bar"
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/movie_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/add_to_watchlist_button"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Description"
-        android:textSize="16sp" />
+        <ImageView
+            android:id="@+id/movie_poster"
+            android:layout_width="108dp"
+            android:layout_height="160dp"
+            android:layout_marginBottom="16dp" android:layout_marginRight="16dp" />
 
-    <ProgressBar
-        android:id="@+id/movie_loader"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
-        android:layout_centerVertical="true" />
+        <TextView
+            android:id="@+id/movie_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/movie_poster"
+            android:text="Title"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/movie_release_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/movie_title"
+            android:layout_marginTop="16dp"
+            android:layout_toRightOf="@id/movie_poster"
+            android:text="Release date"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/movie_genres"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/movie_release_date"
+            android:layout_marginTop="16dp"
+            android:layout_toRightOf="@id/movie_poster"
+            android:text="Genres"
+            android:textSize="16sp" />
+
+        <RatingBar
+            android:id="@+id/movie_rating"
+            style="@android:style/Widget.Holo.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/movie_genres"
+            android:layout_marginTop="16dp"
+            android:layout_toEndOf="@+id/movie_poster"
+            android:layout_toRightOf="@+id/movie_poster" />
+
+        <Button
+            android:id="@+id/add_to_watchlist_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/movie_poster"
+            android:background="@color/colorAccent"
+            android:onClick="addToWatchList"
+            android:text="+ Add to Watch list"
+            android:textColor="#FFFFFF"
+            android:visibility="invisible" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/add_to_watchlist_button"
+            android:layout_marginTop="16dp"
+            android:fillViewport="true"
+            android:scrollbars="vertical">
+
+            <TextView
+                android:id="@+id/movie_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textSize="16sp" />
+
+        </ScrollView>
+
+        <ProgressBar
+            android:id="@+id/movie_loader"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
 
 </RelativeLayout>
