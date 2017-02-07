@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 public abstract class BaseMoviesTapFragment extends Fragment implements MoviesLoadedListener, SwipeRefreshLayout.OnRefreshListener {
 
+    private static final String MOVIES_SAVED_STATE_KEY = "movies_state_key";
     protected RecyclerView recyclerView;
     protected LinearLayoutManager layoutManager;
     protected MoviesListAdapter moviesListAdapter;
@@ -60,18 +61,29 @@ public abstract class BaseMoviesTapFragment extends Fragment implements MoviesLo
             }
         };
         recyclerView.addOnScrollListener(scrollListener);
-
-        fetchMovies(1, "new");
+        if(savedInstanceState != null) {
+            movies = savedInstanceState.getParcelableArrayList(MOVIES_SAVED_STATE_KEY);
+            moviesListAdapter.setMovies(movies);
+        }
+        else
+            fetchMovies(1, "new");
         return view;
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(MOVIES_SAVED_STATE_KEY, movies);
+    }
+
+    @Override
     public void onMoviesLoaded(ArrayList<Movie> movies, String fetchType) {
-        if(fetchType == "new") {
+        if(fetchType.equals("new")) {
             moviesLoader.setVisibility(ProgressBar.INVISIBLE);
             moviesListAdapter.setMovies(movies);
+            this.movies = movies;
         }
-        else if(fetchType == "refresh") {
+        else if(fetchType.equals("refresh")) {
             moviesListAdapter.setMovies(movies);
             refreshMoviesLayout.setRefreshing(false);
         }
@@ -79,8 +91,6 @@ public abstract class BaseMoviesTapFragment extends Fragment implements MoviesLo
             moreMoviesLoader.setVisibility(ProgressBar.INVISIBLE);
             moviesListAdapter.addMovies(movies);
         }
-
-
     }
 
     @Override
@@ -89,9 +99,9 @@ public abstract class BaseMoviesTapFragment extends Fragment implements MoviesLo
     }
 
     public void fetchMovies(Integer pageNumber, String fetchType) {
-        if(fetchType == "new")
+        if(fetchType.equals("new"))
             moviesLoader.setVisibility(ProgressBar.VISIBLE);
-        else if(fetchType == "more")
+        else if(fetchType.equals("more"))
             moreMoviesLoader.setVisibility(ProgressBar.VISIBLE);
         fetchMoviesTask = new FetchMoviesTask(this, getActivity(), fetchType);
         String urlPath = "movie/" + getMovieType() + "?page=" + pageNumber;
