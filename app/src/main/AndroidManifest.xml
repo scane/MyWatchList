@@ -29,13 +29,11 @@
         <activity
             android:name=".activities.MovieDetailsActivity"
             android:label="Movie"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/AppTheme"></activity>
         <activity
             android:name=".activities.MoviesSearchResultsActivity"
             android:label="Search Results"
-            android:parentActivityName=".activities.MainActivity">
-        </activity>
+            android:parentActivityName=".activities.MainActivity"></activity>
         <activity android:name=".activities.MoviesSearchableActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -48,6 +46,7 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+        <activity android:name=".activities.WatchListActivity"></activity>
     </application>
 
 </manifest>
