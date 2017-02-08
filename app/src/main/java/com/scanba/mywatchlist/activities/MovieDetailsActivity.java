@@ -80,7 +80,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieLoad
             movieDescription.setText(movie.getDescription());
             movieRating.setRating(movie.getRating());
             movieRating.setVisibility(RatingBar.VISIBLE);
-            if(movieDao != null && !Movie.exists(movie.getTheMovieDbId(), movieDao)) {
+            if(movieDao != null) {
                 addToWatchListButton.setVisibility(Button.VISIBLE);
             }
         }
@@ -93,14 +93,16 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieLoad
     }
 
     public void addToWatchList(View view) {
-        addToWatchListButton.setVisibility(View.INVISIBLE);
         try {
-            movieDao.create(movie);
-            Toast.makeText(this, "Successfully added movie to watch list.", Toast.LENGTH_SHORT).show();
+            if(Movie.exists(movie.getTheMovieDbId(), movieDao))
+               Toast.makeText(this, "This movie is already in your watch list.", Toast.LENGTH_SHORT).show();
+            else {
+                movieDao.create(movie);
+                Toast.makeText(this, "Successfully added movie to watch list.", Toast.LENGTH_SHORT).show();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             Toast.makeText(this, "Failed to add to watch list. Please try again.", Toast.LENGTH_SHORT).show();
-            addToWatchListButton.setVisibility(Button.VISIBLE);
         }
     }
 }
