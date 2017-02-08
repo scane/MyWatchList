@@ -23,18 +23,17 @@
     <ProgressBar
         android:id="@+id/movies_loader"
         style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/loader_width"
+        android:layout_marginTop="20dp"
+        android:layout_height="@dimen/loader_height"
         android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
-        android:layout_centerVertical="true"
-        android:visibility="invisible" />
+        android:visibility="visible" />
 
     <ProgressBar
         android:id="@+id/more_movies_loader"
         style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/loader_width"
+        android:layout_height="@dimen/loader_height"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:visibility="invisible" />
