@@ -20,14 +20,14 @@
             android:id="@+id/movie_poster"
             android:layout_width="108dp"
             android:layout_height="160dp"
-            android:layout_marginBottom="16dp" android:layout_marginRight="16dp" />
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp" />
 
         <TextView
             android:id="@+id/movie_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/movie_poster"
-            android:text="Title"
             android:textSize="16sp" />
 
         <TextView
@@ -37,7 +37,6 @@
             android:layout_below="@id/movie_title"
             android:layout_marginTop="16dp"
             android:layout_toRightOf="@id/movie_poster"
-            android:text="Release date"
             android:textSize="16sp" />
 
         <TextView
@@ -47,7 +46,6 @@
             android:layout_below="@id/movie_release_date"
             android:layout_marginTop="16dp"
             android:layout_toRightOf="@id/movie_poster"
-            android:text="Genres"
             android:textSize="16sp" />
 
         <RatingBar
@@ -57,8 +55,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/movie_genres"
             android:layout_marginTop="16dp"
-            android:layout_toEndOf="@+id/movie_poster"
-            android:layout_toRightOf="@+id/movie_poster" />
+            android:layout_toRightOf="@+id/movie_poster"
+            android:visibility="invisible" />
 
         <Button
             android:id="@+id/add_to_watchlist_button"
@@ -83,16 +81,14 @@
                 android:id="@+id/movie_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Description"
                 android:textSize="16sp" />
-
         </ScrollView>
 
         <ProgressBar
             android:id="@+id/movie_loader"
             style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/loader_width"
+            android:layout_height="@dimen/loader_height"
             android:layout_centerHorizontal="true"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true" />

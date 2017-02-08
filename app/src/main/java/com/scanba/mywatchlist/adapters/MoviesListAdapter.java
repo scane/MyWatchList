@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import com.scanba.mywatchlist.Constants;
 import com.scanba.mywatchlist.R;
 import com.scanba.mywatchlist.activities.MovieDetailsActivity;
 import com.scanba.mywatchlist.models.Movie;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -38,9 +40,18 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.My
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
         Movie movie = movies.get(position);
-        Picasso.with(context).load(getPosterURL(movie)).placeholder(R.drawable.progress_animation).into(holder.moviePoster);
+        Picasso.with(context).load(getPosterURL(movie)).into(holder.moviePoster, new Callback() {
+            @Override
+            public void onSuccess() {
+                holder.moviePosterLoader.setVisibility(ProgressBar.INVISIBLE);
+            }
+            @Override
+            public void onError() {
+
+            }
+        });
         holder.movieTitle.setText(movie.getTitle());
         holder.movieReleaseDate.setText(movie.getReleaseDate());
         holder.movieRating.setRating(movie.getRating());
@@ -70,6 +81,7 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.My
         ImageView moviePoster;
         TextView movieTitle, movieReleaseDate;
         RatingBar movieRating;
+        ProgressBar moviePosterLoader;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -77,6 +89,7 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.My
             movieTitle = (TextView) itemView.findViewById(R.id.movie_title);
             movieReleaseDate = (TextView) itemView.findViewById(R.id.movie_release_date);
             movieRating = (RatingBar) itemView.findViewById(R.id.movie_rating);
+            moviePosterLoader = (ProgressBar) itemView.findViewById(R.id.movie_poster_loader);
             itemView.setOnClickListener(this);
         }
 

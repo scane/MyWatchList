@@ -72,7 +72,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieLoad
             String posterPath = movie.getPosterPath();
             if(posterPath != null) {
                 Picasso.with(this).load(Constants.THE_MOVIE_DB_POSTER_URL + "w154" + posterPath + "?api_key" + Constants.THE_MOVIE_DB_API_KEY)
-                        .placeholder(R.drawable.progress_animation)
                         .into(moviePoster);
             }
             movieTitle.setText(movie.getTitle());
@@ -80,6 +79,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieLoad
             movieGenres.setText(movie.getGenres());
             movieDescription.setText(movie.getDescription());
             movieRating.setRating(movie.getRating());
+            movieRating.setVisibility(RatingBar.VISIBLE);
             if(movieDao != null && !Movie.exists(movie.getTheMovieDbId(), movieDao)) {
                 addToWatchListButton.setVisibility(Button.VISIBLE);
             }
