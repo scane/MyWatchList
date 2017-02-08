@@ -66,19 +66,23 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieLoad
 
     @Override
     public void onMovieLoaded(Movie movie) {
-        this.movie = movie;
-        movieLoader.setVisibility(ProgressBar.INVISIBLE);
-        String posterPath = movie.getPosterPath();
-        if(posterPath != null) {
-            Picasso.with(this).load(Constants.THE_MOVIE_DB_POSTER_URL + "w154" + posterPath + "?api_key" + Constants.THE_MOVIE_DB_API_KEY).into(moviePoster);
-        }
-        movieTitle.setText(movie.getTitle());
-        movieReleaseDate.setText(movie.getReleaseDate());
-        movieGenres.setText(movie.getGenres());
-        movieDescription.setText(movie.getDescription());
-        movieRating.setRating(movie.getRating());
-        if(movieDao != null && !Movie.exists(movie.getTheMovieDbId(), movieDao)) {
-            addToWatchListButton.setVisibility(Button.VISIBLE);
+        if(movie != null) {
+            this.movie = movie;
+            movieLoader.setVisibility(ProgressBar.INVISIBLE);
+            String posterPath = movie.getPosterPath();
+            if(posterPath != null) {
+                Picasso.with(this).load(Constants.THE_MOVIE_DB_POSTER_URL + "w154" + posterPath + "?api_key" + Constants.THE_MOVIE_DB_API_KEY)
+                        .placeholder(R.drawable.progress_animation)
+                        .into(moviePoster);
+            }
+            movieTitle.setText(movie.getTitle());
+            movieReleaseDate.setText(movie.getReleaseDate());
+            movieGenres.setText(movie.getGenres());
+            movieDescription.setText(movie.getDescription());
+            movieRating.setRating(movie.getRating());
+            if(movieDao != null && !Movie.exists(movie.getTheMovieDbId(), movieDao)) {
+                addToWatchListButton.setVisibility(Button.VISIBLE);
+            }
         }
     }
 

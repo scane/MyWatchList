@@ -40,7 +40,7 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.My
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Movie movie = movies.get(position);
-        Picasso.with(context).load(getPosterURL(movie)).into(holder.moviePoster);
+        Picasso.with(context).load(getPosterURL(movie)).placeholder(R.drawable.progress_animation).into(holder.moviePoster);
         holder.movieTitle.setText(movie.getTitle());
         holder.movieReleaseDate.setText(movie.getReleaseDate());
         holder.movieRating.setRating(movie.getRating());
