@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -90,6 +92,27 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieLoad
     public void onBackPressed() {
         Intent setIntent = new Intent(this, MainActivity.class);
         startActivity(setIntent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_movie_details, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.share:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                String content = movie.getTitle() + "\n\n";
+                content += movie.getDescription();
+                sendIntent.putExtra(Intent.EXTRA_TEXT, content);
+                sendIntent.setType("text/plain");
+                startActivity(Intent.createChooser(sendIntent, "Choose app"));
+        }
+        return true;
     }
 
     public void addToWatchList(View view) {
