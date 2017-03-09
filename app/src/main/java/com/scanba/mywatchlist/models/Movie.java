@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -53,6 +54,10 @@ public class Movie implements Parcelable {
             return new Movie[size];
         }
     };
+
+    public int getId() {
+        return id;
+    }
 
     public String getTheMovieDbId() {
         return theMovieDbId;
@@ -140,5 +145,16 @@ public class Movie implements Parcelable {
             e.printStackTrace();
             return true;
         }
+    }
+
+    public void delete(Dao<Movie, Integer> movieDao) {
+        DeleteBuilder<Movie, Integer> deleteBuilder = movieDao.deleteBuilder();
+        try {
+            deleteBuilder.where().eq("id", getId());
+            deleteBuilder.delete();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 }

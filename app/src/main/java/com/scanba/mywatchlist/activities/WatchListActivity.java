@@ -12,6 +12,7 @@ import com.j256.ormlite.dao.Dao;
 import com.scanba.mywatchlist.DatabaseHelper;
 import com.scanba.mywatchlist.R;
 import com.scanba.mywatchlist.adapters.MoviesListAdapter;
+import com.scanba.mywatchlist.adapters.MyWatchListAdapter;
 import com.scanba.mywatchlist.models.Movie;
 
 import java.sql.SQLException;
@@ -21,7 +22,7 @@ public class WatchListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
-    private MoviesListAdapter adapter;
+    private MyWatchListAdapter adapter;
     private Dao<Movie, Integer> movieDao;
 
     @Override
@@ -43,7 +44,7 @@ public class WatchListActivity extends AppCompatActivity {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        adapter = new MoviesListAdapter(this, movies);
+        adapter = new MyWatchListAdapter(this, movies);
         recyclerView.setAdapter(adapter);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, layoutManager.getOrientation());
